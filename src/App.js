@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { useSelector } from "react-redux";
+import Body from "./components/Body";
+import Header from "./components/Header";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import MainContainer from "./components/MainContainer";
+import WatchPage from "./components/WatchPage";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const slider = useSelector((store) => store.mode.slider);
+  const router=createBrowserRouter([
+    {
+      path:"/",
+      element:<Body/>,
+      children:[
+        {
+          path:"/",
+          element:<MainContainer/>
+        },
+        {
+          path:"/watch",
+          element:<WatchPage/>
+        }
+      ]
+    }
+  ])
+  return <div className={slider?" dark:bg-slate-700 bg-zinc-300 ":" dark:bg-slate-800 "}>
+    <Header/>
+    <RouterProvider router={router}/>
+  </div>;
 }
 
 export default App;
